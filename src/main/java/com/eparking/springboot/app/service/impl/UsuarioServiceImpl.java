@@ -23,11 +23,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	@Transactional
 	public void insert(Usuario usuario, MultipartFile imageFile) throws Exception {
-		Path currentPath = Paths.get(".");
-		Path absolutePaht = currentPath.toAbsolutePath();
-		byte[] bytes = imageFile.getBytes();
-		Path path = Paths.get(absolutePaht + "/src/main/resources/static/multipartFile/" + imageFile.getOriginalFilename());
-		Files.write(path, bytes);
+		if(!imageFile.getOriginalFilename().equals("")) {
+			Path currentPath = Paths.get(".");
+			Path absolutePaht = currentPath.toAbsolutePath();
+			byte[] bytes = imageFile.getBytes();
+			Path path = Paths.get(absolutePaht + "/src/main/resources/static/multipartFile/" + imageFile.getOriginalFilename());
+			Files.write(path, bytes);
+		}
+		
 		usR.save(usuario);
 	}
 

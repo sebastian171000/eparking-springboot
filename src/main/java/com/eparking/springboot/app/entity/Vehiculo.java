@@ -27,20 +27,15 @@ public class Vehiculo implements Serializable {
 	@Column(name="Placa", unique = true)
 	private String placa;
 	
-	@NotEmpty(message =  "La marca es obligatoria")
-	@Column(name="Marca")
-	private String marca;
-	
-	@NotEmpty(message = "El modelo es obligatorio")
-	@Column(name="Modelo")
-	private String modelo;
-	
 	@ManyToOne
 	@JoinColumn(name="ID_Usuario")
 	private Usuario usuario;
 	
-	@Column(name="Estado")
-	private Boolean estado = false;
+	
+	@ManyToOne
+	@JoinColumn(name = "ID_Modelo")
+	private Modelo modelo;
+	
 	
 
 	public Vehiculo() {
@@ -48,15 +43,16 @@ public class Vehiculo implements Serializable {
 	}
 
 
-	public Vehiculo(int codigo, String placa, String marca, String modelo, Usuario usuario, Boolean estado) {
+
+	public Vehiculo(int codigo, @NotEmpty(message = "La placa es obligatoria") String placa, Usuario usuario,
+			Modelo modelo) {
 		super();
 		this.codigo = codigo;
 		this.placa = placa;
-		this.marca = marca;
-		this.modelo = modelo;
 		this.usuario = usuario;
-		this.estado = estado;
+		this.modelo = modelo;
 	}
+
 
 
 	public int getCodigo() {
@@ -64,9 +60,11 @@ public class Vehiculo implements Serializable {
 	}
 
 
+
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+
 
 
 	public String getPlaca() {
@@ -74,29 +72,11 @@ public class Vehiculo implements Serializable {
 	}
 
 
+
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
 
-
-	public String getMarca() {
-		return marca;
-	}
-
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
-
-	public String getModelo() {
-		return modelo;
-	}
-
-
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
-	}
 
 
 	public Usuario getUsuario() {
@@ -104,20 +84,29 @@ public class Vehiculo implements Serializable {
 	}
 
 
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
 
-	public Boolean getEstado() {
-		return estado;
+
+	public Modelo getModelo() {
+		return modelo;
 	}
 
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
+
+	public void setModelo(Modelo modelo) {
+		this.modelo = modelo;
 	}
 
+
+
+	
+
+
+	
 
 	
 

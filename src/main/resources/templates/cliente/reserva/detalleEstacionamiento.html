@@ -58,7 +58,7 @@
 
                     <div class="imagen-detalle centrar-text">
  						<!--<img th:src="@{*{'/img/' + usuario.imagen}}" title="TODO" />-->
- 						<img th:src="@{*{'/multipartFile/' + usuario.imagen}}" title="TODO" />
+ 						<img th:if="*{usuario.imagen}" th:src="@{*{'/multipartFile/' + usuario.imagen}}" title="TODO" />
 
                     </div>
 

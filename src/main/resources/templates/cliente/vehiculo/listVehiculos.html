@@ -59,8 +59,8 @@
 								<tr th:each="veh: ${listVehiculos}">
 									<td th:text="${veh.codigo}"></td>
 									<td th:text="${veh.placa}"></td>
-									<td th:text="${veh.marca}"></td>
-									<td th:text="${veh.modelo}"></td>
+									<td th:text="${veh.modelo.marca.nombre}"></td>
+									<td th:text="${veh.modelo.nombre}"></td>
 									<td>
 										<a th:href="@{/vehiculos/delete?id=} + ${veh.codigo}"><i class="fas fa-trash-alt"></i></a>
 										<a th:href="@{/vehiculos/update/} + ${veh.codigo}"><i class="fas fa-edit"></i></a>

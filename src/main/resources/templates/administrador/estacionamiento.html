@@ -48,13 +48,13 @@
                         </div>
                         <div class="fila-detalle">
                             <i class="fas fa-car"></i>
-                            <p th:text="*{espacios}+' espacios disponibles'"></p>
+                            <p th:text="*{espacios_disponibles}+' espacios disponibles'"></p>
                         </div>
                         
                     </div>
 
                     <div class="imagen-detalle centrar-text">
- 						<img th:src="@{*{'/multipartFile/' + usuario.imagen}}" title="TODO" />
+ 						<img th:if="*{usuario.imagen}" th:src="@{*{'/multipartFile/' + usuario.imagen}}" title="TODO" />
  						<!--<img th:src="*{imagen}" title="TODO" /> -->
 
                     </div>

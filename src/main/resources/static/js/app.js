@@ -167,7 +167,7 @@ jQuery(document).ready($ => {
 	                icon: 'error',
 	                html: `<ul class="listaErrores">${listaErrores}</ul>`,
 	                confirmButtonText: 'Aceptar',
-	                customClass: 'swal-wide-reserva',
+	                customClass: 'swal-wide-registro',
 	
 	            })
 				e.preventDefault();

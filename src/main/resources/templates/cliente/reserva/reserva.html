@@ -40,7 +40,7 @@
                             <div class="input-credito">
                                 <label for="vehiculo">Vehículo: </label>
 								<select id="vehiculo" name="vehiculo">
-									<option th:each="veh: ${listVehiculos}" th:text="${veh.modelo}" th:value="${veh.codigo}"></option>
+									<option th:each="veh: ${listVehiculos}" th:text="${veh.modelo.nombre}" th:value="${veh.codigo}"></option>
 								</select>
                             </div>
 

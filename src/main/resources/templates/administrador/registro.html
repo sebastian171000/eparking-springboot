@@ -1,3 +1,4 @@
+  
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -9,7 +10,7 @@
 </head>
 <meta charset="UTF-8"></meta>
 
-<<body class="overflow-hidden registro">
+<body class="overflow-hidden registro">
     <div class="hero-header">
         <div class="contenedor">
             <a th:href="@{/login}">Iniciar Sesión</a>
@@ -19,36 +20,36 @@
         <div class="hero-registro">
             <div class="contenedor">
                 <h2>Registro Estacionamiento</h2>
-                <form class="form-registro-estacionamiento" th:action="@{/registroEstacionamiento/save}" th:object="${estacionamiento}"  method="post" enctype="multipart/form-data">
+                <form id="registro-admin" class="form-registro-estacionamiento" th:action="@{/registroEstacionamiento/save}" th:object="${estacionamiento}"  method="post" enctype="multipart/form-data">
                     <div class="grid-registro">
                         <div class="grid-registro">
                             <div class="registro-contenido">
                                 <label for="nombres">Nombres:</label>
-                                <input type="text" th:field="*{usuario.nombres}">
+                                <input id="nombres" type="text" th:field="*{usuario.nombres}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="apellidos">Apellidos:</label> 
-                                <input type="text" th:field="*{usuario.apellidos}">
+                                <input id="apellidos" type="text" th:field="*{usuario.apellidos}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="direccion">Dirección:</label> 
-                                <input type="text" th:field="*{direccion}">
+                                <input id="direccion" type="text" th:field="*{direccion}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="espacios">Capacidad Máxima:</label> 
-                                <input type="number" th:field="*{espacios}">
+                                <input id="espacios" type="number" th:field="*{espacios}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="tarifa">Tarifa x hora:</label> 
-								<input type="number" th:field="*{tarifa}">
+								<input id="tarifa" type="number" th:field="*{tarifa}">
                             </div>
                             <div class="registro-contenido">
-                                <label for="username">Username:</label> <input type="text"
-								th:field="*{usuario.username}">
+                                <label for="username">Username:</label> 
+                                <input id="username" type="text" th:field="*{usuario.username}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="clave">Contraseña:</label> 
-                                <input type="password" th:field="*{usuario.clave}">
+                                <input id="clave" type="password" th:field="*{usuario.clave}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="distrito">Distrito: </label>
@@ -58,14 +59,14 @@
                             </div>
                             <div class="registro-contenido">
                                 <label for="correo">Correo:</label> 
-                                <input type="text" th:field="*{usuario.correo}">
+                                <input id="correo" type="text" th:field="*{usuario.correo}">
                             </div>
                             <div class="registro-contenido">
                                 <label for="telefono">Teléfono:</label> 
-                                <input type="text" th:field="*{usuario.telefono}">
+                                <input id="telefono" type="text" th:field="*{usuario.telefono}">
                             </div>
 							<div class="checkbox">
-                                <input type="checkbox" id="recordar" name="recordar" value="1">
+                                <input type="checkbox" id="checkbox" name="checkbox" value="1">
                                 <label for="recordar">Aceptar Términos & Condiciones</label>
                        		</div>
                         </div>
@@ -86,11 +87,10 @@
                                  la comodidad de sus posibles clientes.</p>
                             </div>
                             <div class="right-text">
-                                <input type="submit" value="Registrar">
+                                <input id="submit_registro_admin" type="submit" value="Registrar">
                             </div>
                             
                         </div>
-                        <input type="hidden" th:field="*{usuario.codigo}">
                     </div>
                 </form>
             </div>
@@ -100,6 +100,102 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script th:src="@{/js/app.js}"></script>
+     <script type="text/javascript">
+    	const expresiones = {
+            texto: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+            correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+            telefono: /^\d{7,14}$/,
+            username: /^[a-zA-Z0-9\\_\\-]{4,16}$/,
+            clave: /^.{4,50}$/
+        }
+		$('#submit_registro_admin').on('click',function(e){
+			var nombres = $('#nombres').val();
+			var apellidos = $('#apellidos').val();
+			var direccion = $('#direccion').val();
+			var espacios = parseInt($('#espacios').val());
+			var tarifa = parseInt($('#tarifa').val());
+			var distrito = $('#distrito').val();
+			var correo = $('#correo').val();
+			var telefono = $('#telefono').val();
+			var username = $('#username').val();
+			var clave = $('#clave').val();
+			var checkbox = $('#checkbox').is(':checked');
+			var errores = [];
+			var listaErrores ='';
+			$('#registro-admin input').removeClass('error');
+			if(!expresiones.texto.test(nombres)){
+				errores.push('nombres')
+				listaErrores += `<li>Error en el nombre</li>`;
+				$('#nombres').addClass('error');
+			}
+
+			if(!expresiones.texto.test(apellidos)){
+				errores.push('apellidos')
+				listaErrores += `<li>Error en el apellido</li>`;
+				$('#apellidos').addClass('error');
+			}
+			if(!expresiones.correo.test(correo)){
+				errores.push('correo')
+				listaErrores += `<li>Error en el correo</li>`;
+				$('#correo').addClass('error');
+			}
+
+			if(!expresiones.telefono.test(telefono)){
+				errores.push('telefono')
+				listaErrores += `<li>Error en el telefono</li>`;
+				$('#telefono').addClass('error');
+			}
+			if(!expresiones.username.test(username)){
+				errores.push('username')
+				listaErrores += `<li>Error en el username</li>`;
+				$('#username').addClass('error');
+			}
+			if(!expresiones.clave.test(clave)){
+				errores.push('clave')
+				listaErrores += `<li>Error en la clave</li>`;
+				$('#clave').addClass('error');
+			}
+			if(espacios <= 0 || !$.isNumeric(espacios)){
+				errores.push('espacios')
+				listaErrores += `<li>Error en la capacidad</li>`;
+				$('#espacios').addClass('error');
+			}
+			if(tarifa <= 0 || !$.isNumeric(tarifa)){
+				errores.push('tarifa')
+				listaErrores += `<li>Error en la tarifa</li>`;
+				$('#tarifa').addClass('error');
+			}
+			if(direccion == ""){
+				errores.push('direccion')
+				listaErrores += `<li>La dirección no puede estar vacía</li>`;
+				$('#direccion').addClass('error');
+			}
+			
+			if(errores.length != 0){
+				Swal.fire({
+	                title: 'Error!',
+	                icon: 'error',
+	                html: `<ul class="listaErrores">${listaErrores}</ul>`,
+	                confirmButtonText: 'Aceptar',
+	                customClass: 'swal-wide-registro',
+	                
+	            })
+	            e.preventDefault();
+			}else if(!checkbox){
+				Swal.fire({
+	                title: 'Terminos y condiciones',
+	                icon: 'info',
+	                html: `<p>Tienes que aceptar los terminos y condiciones para poder registrarte</p>`,
+	                confirmButtonText: 'Aceptar',
+	                customClass: 'swal-wide-registro-alerta',
+	                
+	            })
+	            e.preventDefault();
+			}
+			
+			
+		});
+    </script>
 </body>
 
 

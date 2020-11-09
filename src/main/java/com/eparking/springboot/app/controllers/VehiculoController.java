@@ -1,11 +1,9 @@
 package com.eparking.springboot.app.controllers;
 
 import java.util.Map;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.eparking.springboot.app.entity.Usuario;
 import com.eparking.springboot.app.entity.Vehiculo;
+import com.eparking.springboot.app.service.IMarcaService;
+import com.eparking.springboot.app.service.IModeloService;
 import com.eparking.springboot.app.service.IVehiculoService;
 
 @Controller
@@ -26,9 +26,17 @@ public class VehiculoController {
 	@Autowired
 	private IVehiculoService veService;
 	
+	@Autowired
+	private IMarcaService maService;
+	
+	@Autowired
+	private IModeloService moService;
+	
 	@GetMapping("/new")
 	public String newVehiculo(Model model) {
 		model.addAttribute("vehiculo", new Vehiculo());
+		model.addAttribute("listMarcas", maService.list());
+		model.addAttribute("listModelos", moService.list());
 		model.addAttribute("boton","Guardar");
 		model.addAttribute("titulo","Nuevo Vehículo");
 		return "cliente/vehiculo/vehiculo";
@@ -43,24 +51,24 @@ public class VehiculoController {
 		}else {
 			return "redirect:/vehiculos/list";
 		}
+		model.put("listMarcas", maService.list());
+		model.put("listModelos", moService.list());
 		model.put("vehiculo", vehiculo);
 		model.put("boton","Actualizar");
 		model.put("titulo","Actualizar Vehículo");
-		return "cliente/vehiculo/vehiculo";
+		return "cliente/vehiculo/vehiculoUpdate";
 	}
 	
 	@PostMapping("/save")
-	public String saveVehiculo(@Valid Vehiculo vehiculo, BindingResult result, Model model) {
+	public String saveVehiculo(Vehiculo vehiculo, Model model) {
 		try {
-			if(result.hasErrors()) {
-				model.addAttribute("titulo","Nuevo Vehículo");
-				model.addAttribute("boton","Guardar");
-				return "cliente/vehiculo/vehiculo";
-			}else {
-				model.addAttribute("mensaje", "Se guardo correctamente el vehiculo");
-				veService.insert(vehiculo);
-			}
+			
+			model.addAttribute("mensaje", "Se guardo correctamente el vehiculo");
+			veService.insert(vehiculo);
+			
 		} catch (Exception e) {
+			model.addAttribute("listMarcas", maService.list());
+			model.addAttribute("listModelos", moService.list());
 			model.addAttribute("titulo","Nuevo Vehículo");
 			model.addAttribute("boton","Guardar");
 			model.addAttribute("error_placa", "La placa que ah ingresado ya existe");

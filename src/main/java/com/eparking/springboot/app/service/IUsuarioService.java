@@ -11,6 +11,6 @@ public interface IUsuarioService {
 	public void delete(Integer idUsuario);
 	List<Usuario> list();
 	public Usuario findOne(Integer idUsuario);
-	public Usuario login(String username, String clave);
+	public Usuario login(String username);
 	void insert(Usuario usuario, MultipartFile imageFile) throws Exception;
 }

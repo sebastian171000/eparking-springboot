@@ -48,15 +48,16 @@
                                 <label for="estacionamiento">Estacionamiento: </label>
 								<select id="estacionamiento" name="estacionamiento">
 									<option th:each="est, iStat : ${listEstacionamientos}" 
-									th:text="${est.direccion}+' | '+${est.espacios}+' | S/'+${est.tarifa}" 
+									th:text="${est.direccion}+' | '+${est.distrito.nombre}+' | S/'+${est.tarifa}" 
 									th:value="${est.codigo}" 
 									th:class="${iStat.index + 1}+' '+${est.horaApertura}+' '+${est.horaCierre}+' '+
-									${est.anticipacionHoras}+' '+${est.anticipacionDias}" 
+									${est.anticipacionHoras}+' '+${est.anticipacionDias}+' '+${est.espacios_disponibles}" 
 									id="option" 
 									th:selected="${est.codigo eq es}"></option>
 									
 								</select>
 								<div id="log"></div>
+								<div id="log2"></div>
                             </div>
 							<div class="input-credito">
                                 <label for="fechaReserva">Fecha: </label>
@@ -84,15 +85,7 @@
                         <input type="submit" id="submit_nueva_reserva" th:value="${boton}" ></input>
 						<a th:href="@{/reservas/list}" >Cancelar</a>
                     </div>
-                    <!-- A QUE HORA ABRE -->
-                    <input type="hidden" value="7:00" class="minTime" name="minTime">
-                    <!-- A QUE HORA CIERRA -->
-                    <input type="hidden" value="23:00" class="maxTime" name="maxTime">
-                    <!-- CUANTAS HORAS DE ANTICIPACION EN CASO SE PUEDA RESERVAR HOY MISMO -->
-                    <input type="hidden" value="1" class="anticipacionHoras" name="anticipacionHoras">
-                    <!-- CUANTOS DIAS DE ANTICIPACION PARA RESERVAR -->
-                    <input type="hidden" value="0" class="anticipacionDias" name="anticipacionDias">
-					<input type="hidden" th:field="*{codigo}">
+                   
                 </form>
             </div>
         </div>

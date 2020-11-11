@@ -23,6 +23,12 @@ public class HomeController {
 	@Autowired 
 	private IEstacionamientoService esService;
 	
+	@GetMapping({"/", "", "/landing"})
+	public String landing() {
+		
+		return "landing";
+	}
+	
 	@GetMapping("/home")
 	public String index(@ModelAttribute("usuarioSesion") Usuario usuario,Model model)
 	{

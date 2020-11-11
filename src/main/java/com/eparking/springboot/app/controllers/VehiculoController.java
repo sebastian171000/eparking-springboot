@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eparking.springboot.app.entity.Usuario;
 import com.eparking.springboot.app.entity.Vehiculo;
@@ -33,7 +34,11 @@ public class VehiculoController {
 	private IModeloService moService;
 	
 	@GetMapping("/new")
-	public String newVehiculo(Model model) {
+	public String newVehiculo(@ModelAttribute("usuarioSesion") Usuario usuario,Model model,RedirectAttributes flash) {
+		if(usuario.getTipo().equals("A")) {
+			flash.addFlashAttribute("permiso", "cliente");
+			return "redirect:/home";
+		}
 		model.addAttribute("vehiculo", new Vehiculo());
 		model.addAttribute("listMarcas", maService.list());
 		model.addAttribute("listModelos", moService.list());
@@ -43,8 +48,12 @@ public class VehiculoController {
 	}
 	
 	@RequestMapping("/update/{id}")
-	public String update(@PathVariable(value = "id") Integer id,Map<String, Object> model) {
-		
+	public String update(@PathVariable(value = "id") Integer id,@ModelAttribute("usuarioSesion") Usuario usuario,
+			Map<String, Object> model, RedirectAttributes flash) {
+		if(usuario.getTipo().equals("A")) {
+			flash.addFlashAttribute("permiso", "cliente");
+			return "redirect:/home";
+		}
 		Vehiculo vehiculo = null;
 		if(id>0) {
 			vehiculo = veService.findOne(id);
@@ -61,6 +70,7 @@ public class VehiculoController {
 	
 	@PostMapping("/save")
 	public String saveVehiculo(Vehiculo vehiculo, Model model) {
+
 		try {
 			
 			model.addAttribute("mensaje", "Se guardo correctamente el vehiculo");
@@ -80,18 +90,28 @@ public class VehiculoController {
 	}
 	
 	@GetMapping("/list")
-	public String listVehiculos(@ModelAttribute("usuarioSesion") Usuario usuario,Model model) {
+	public String listVehiculos(@ModelAttribute("usuarioSesion") Usuario usuario,Model model, RedirectAttributes flash) {
+		if(usuario.getTipo().equals("A")) {
+			flash.addFlashAttribute("permiso", "cliente");
+			return "redirect:/home";
+		}
 		try {
 			model.addAttribute("vehiculo", new Vehiculo());
 			model.addAttribute("listVehiculos", veService.listByUser(usuario));
 		}catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
 		}
+		
 		return "cliente/vehiculo/listVehiculos";
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+	public String delete(@ModelAttribute("usuarioSesion") Usuario usuario,Map<String, Object> model, 
+			@RequestParam(value="id") Integer id, RedirectAttributes flash) {
+		if(usuario.getTipo().equals("A")) {
+			flash.addFlashAttribute("permiso", "cliente");
+			return "redirect:/home";
+		}
 		try {
 			if(id!=null && id>0) {
 				veService.delete(id);
@@ -103,6 +123,27 @@ public class VehiculoController {
 		}
 		model.put("listVehiculos", veService.list());
 		return "redirect:/vehiculos/list";
+	}
+	
+	@GetMapping("/buscar")
+	public String buscar(@ModelAttribute("usuarioSesion") Usuario usuario,Model model, RedirectAttributes flash, 
+			@RequestParam(value = "busqueda") String busqueda) {
+		if(usuario.getTipo().equals("A")) {
+			flash.addFlashAttribute("permiso", "cliente");
+			return "redirect:/home";
+		}
+
+		try {
+			if(!busqueda.equals("") || !busqueda.equals("Buscar+vehiculo")) {
+				model.addAttribute("listVehiculosByMarcaModelo", veService.listByMarcaPlaca(busqueda));
+			}else {
+				return "redirect:/vehiculos/list";
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			model.addAttribute("mensaje", "No se pudo encontrar coincidencias");
+		}
+		return "cliente/vehiculo/listVehiculos";
 	}
 	
 }

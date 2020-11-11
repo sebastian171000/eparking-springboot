@@ -6,11 +6,14 @@ jQuery(document).ready($ => {
 	if(pathname.indexOf("reservas/new") === 1 || pathname.indexOf("reservas/update") === 1){//INICIO JS PARA RESERVAS/NEW
 		var sel = $('#estacionamiento');
 		var log = $('#log');
+		var log2 = $('#log2');
 		var clases = $('select[name="estacionamiento"] :selected').attr('class');
 		var split = clases.split(" ");
 		var index = split[0];
+		var espacios_disponibles = split[5];
 		var selectedOption = $(`#estacionamiento option:nth-child(${index})`);
 		log.html(`<a href="/reservas/detalleEstacionamiento/${sel.val()}">Ver detalle ${selectedOption.text()}</a>`);
+		log2.html(`Quedan ${espacios_disponibles} espacios disponibles`);
 		//HORA_APERTURA
 		var minTimeInput = split[1];
 		//HORA_CIERRE

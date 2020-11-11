@@ -52,9 +52,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario login(String username, String clave) {
+	public Usuario login(String username) {
 		// TODO Auto-generated method stub
-		return usR.Login(username, clave);
+		return usR.Login(username);
 	}
 
 	@Override

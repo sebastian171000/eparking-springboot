@@ -17,4 +17,7 @@ public interface IVehiculoRepository extends JpaRepository<Vehiculo, Integer> {
 	
 	@Query("select v from Vehiculo v where v.usuario =:usuario")
 	public List<Vehiculo> listByUser(@Param("usuario") Usuario usuario);
+	
+	@Query("select v from Vehiculo v where v.placa like %:busqueda% or v.modelo.marca.nombre like %:busqueda%")
+	public List<Vehiculo> listByMarcaPlaca(@Param("busqueda") String busqueda);
 }

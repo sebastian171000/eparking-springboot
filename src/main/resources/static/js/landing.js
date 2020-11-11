@@ -1,5 +1,13 @@
 jQuery(document).ready($ => {
 	
+	//AOS
+	
+	
+	AOS.init({
+        duration: 1200,
+    })
+	
+	
 	//MENU FIJO
 	
 	
@@ -29,6 +37,31 @@ jQuery(document).ready($ => {
             }
         }
     });
+
+	//MENU FIJO MOBILE
+	
+	$(".navegacion-principal a").on('click', function() {
+        $(".navegacion-principal a").removeClass('right10px');
+        $(this).addClass('right10px');
+    });
+    let contador = 0;
+    $(".menu-bar").on('click', function() {
+        if (contador == 0) {
+            $('.hero-header-nav').removeClass('left-100');
+            $('.hero-header-nav').addClass('show-menu');
+            contador = 1;
+        } else {
+            $('.hero-header-nav').removeClass('show-menu');
+            contador = 0;
+        }
+
+    });
+    $(".contenido-header-nav a").on('click', function() {
+        if (contador == 1) {
+            $('.hero-header-nav').addClass('left-100');
+            contador = 0;
+        }
+    })
 	
 	//SMOOTH SCROLL
 	
@@ -38,7 +71,7 @@ jQuery(document).ready($ => {
     });
 	
 	
-	//SWIPER	
+	//SWIPER BANNER
 	swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
         loop: true,
@@ -48,6 +81,21 @@ jQuery(document).ready($ => {
         },
         pagination: {
             el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+
+	//SWIPER CONTACTANOS
+	var swiper4 = new Swiper('.swiper-container4', {
+
+        slidesPerView: 1,
+        loop: true,
+         autoplay: {
+             delay: 5000,
+             disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination4',
             clickable: true,
         },
     });

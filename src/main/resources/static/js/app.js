@@ -179,8 +179,8 @@ jQuery(document).ready($ => {
 		});
 	}	//FIN DE JS PARA RESERVAS/NEW
 	$('.btn-registrarse a').on('click', function() {
-        var linkCliente = 'registroCliente';
-        var linkAdmin = 'registroEstacionamiento';
+        var linkCliente = '/registroCliente';
+        var linkAdmin = '/registroEstacionamiento';
         Swal.fire({
             title: '¿Cómo desea registrarse?',
             showDenyButton: true,
